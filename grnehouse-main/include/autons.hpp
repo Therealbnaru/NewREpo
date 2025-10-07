@@ -2,8 +2,9 @@
 
 void default_constants();
 
-void drive_example();
-void turn_example();
+void skills();
+void elimsRBRight();
+void elimsRBLeft();
 void drive_and_turn();
 void wait_until_change_speed();
 void swing_example();

@@ -11,11 +11,7 @@ extern pros::Motor hopper;
 
 //pneumatics
 extern pros::adi::Pneumatics hoodP;
-extern pros::adi::Pneumatics odomPull;
 extern pros::adi::Pneumatics redirect;
-
-extern pros::adi::Pneumatics trapDoor;
-
 
 
 
@@ -37,3 +33,4 @@ extern double hueL;
 extern int proxL;
 extern int proxR;
 extern int globController;
+extern bool autonOn;

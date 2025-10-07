@@ -49,14 +49,14 @@ void spin_intake(int x)
     if(x==1)
     {
       redirect.set_value(false);
-      hopper.move(10);
+      hopper.move(-10);
       pros::delay(190);
     }
     //colorSort in for auton sort
     else if(x==2)
     {
       redirect.set_value(false);
-      hopper.move(10);
+      hopper.move(-10);
       pros::delay(190);
     }
     //R1- Top Goal
@@ -65,7 +65,7 @@ void spin_intake(int x)
       redirect.set_value(true);
       intake.move(127);
       hood.move(-127);
-      hopper.move(127);
+      hopper.move(-127);
 
     } 
     //R2 - Mid
@@ -73,7 +73,7 @@ void spin_intake(int x)
     {
       intake.move(127);
       hood.move(127);
-      hopper.move(127);
+      hopper.move(-127);
     }
     //B - Full Stop
     else if (x==5) 
@@ -87,7 +87,7 @@ void spin_intake(int x)
     else if(x==6)
     {
       hood.move(0);
-      hopper.move(127);
+      hopper.move(-127);
       intake.move(-127);
     }
     //top basket
@@ -96,11 +96,11 @@ void spin_intake(int x)
       redirect.set_value(false);
       hood.move(-127);
       intake.move(127);
-      hopper.move(127);
+      hopper.move(-127);
     }
     else if(x==8)
     {
-      hopper.move(-127);
+      hopper.move(127);
       hood.move(-127);
       intake.move(127);
     }
@@ -117,110 +117,101 @@ void spin_intake(int x)
  //If true intake is not doing anything, if false intake is doing something
 void buttonControlDriver()
 { 
-
-
-  while(true)
+  
+  hueR = optical_sensorR.get_hue();
+  hueL = optical_sensorL.get_hue();
+  proxR = optical_sensorR.get_proximity();
+  proxL = optical_sensorL.get_proximity();
+  if(master.get_digital(DIGITAL_R1))
   {
+    
+    intakeOff = false;
+    spin_intake(3);
 
-    hueR = optical_sensorR.get_hue();
-    hueL = optical_sensorL.get_hue();
-    proxR = optical_sensorR.get_proximity();
-    proxL = optical_sensorL.get_proximity();
-    if(master.get_digital(DIGITAL_R1))
-    {
-      
-      intakeOff = false;
-      spin_intake(3);
-
-    }
-    else if(master.get_digital(DIGITAL_R2))
-    {
-      intakeOff = false;
-      spin_intake(4);
-    }
-    else if(master.get_digital(DIGITAL_A))
-    {
-      intakeOff = false;
-      spin_intake(6);
-    }
-    else if(master.get_digital(DIGITAL_B))
-    {
-      intakeOff = true;
-      spin_intake(5);
-    }
-    else if(master.get_digital(DIGITAL_Y))
-    {
-      intakeOff = false;
-      spin_intake(7);
-    }
-    //Alliance 1 = red, Colorsort Blue OUT
-    else if(((hueR < 230 && hueR > 200) || (hueL < 230 && hueL > 200)) && (proxR > 75 || proxL > 75) && alliance == 1 && intakeOff == false)
-    {
-      spin_intake(1);
-    }
-    //Alliance 2 = Blue, Colorsort red OUT
-    else if(((hueR < 50 && hueR > 300) || (hueL < 50 && hueL > 300)) && (proxR > 75 || proxL > 75) && alliance == 2 && intakeOff == false)
-    {
-      spin_intake(1);
-    }
-    else if(intakeOff == false)
-    {
-      spin_intake(8);
-    }
-    pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
+  else if(master.get_digital(DIGITAL_R2))
+  {
+    intakeOff = false;
+    spin_intake(4);
+  }
+  else if(master.get_digital(DIGITAL_A))
+  {
+    intakeOff = false;
+    spin_intake(6);
+  }
+  else if(master.get_digital(DIGITAL_B))
+  {
+    intakeOff = true;
+    spin_intake(5);
+  }
+  else if(master.get_digital(DIGITAL_Y))
+  {
+    intakeOff = false;
+    spin_intake(7);
+  }
+  //Alliance 1 = red, Colorsort Blue OUT
+  else if(((hueR < 230 && hueR > 200) || (hueL < 230 && hueL > 200)) && (proxR > 75 || proxL > 75) && alliance == 1 && intakeOff == false)
+  {
+    spin_intake(1);
+  }
+  //Alliance 2 = Blue, Colorsort red OUT
+  else if(((hueR < 50 && hueR > 300) || (hueL < 50 && hueL > 300)) && (proxR > 75 || proxL > 75) && alliance == 2 && intakeOff == false)
+  {
+    spin_intake(1);
+  }
+  else if(intakeOff == false)
+  {
+    spin_intake(8);
+  }
+
 
 }
 //task for intake during autons
-void autonControll(int state)
+
+void autonControll()
 {
-  while(true)
+  hueR = optical_sensorR.get_hue();
+  hueL = optical_sensorL.get_hue();
+  proxR = optical_sensorR.get_proximity();
+  proxL = optical_sensorL.get_proximity();
+  if(globController == 3)
   {
-    hueR = optical_sensorR.get_hue();
-    hueL = optical_sensorL.get_hue();
-    proxR = optical_sensorR.get_proximity();
-    proxL = optical_sensorL.get_proximity();
-    if(state == 3)
-    {
-      intakeOff = false;
-      spin_intake(3);
-    }
-    else if(state == 4)
-    {
-      intakeOff = false;
-      spin_intake(4);
-    }
-    else if(state == 6)
-    {
-      intakeOff = false;
-      spin_intake(6);
-    }
-    else if(state == 5)
-    {
-      intakeOff = true;
-      spin_intake(5);
-    }
-    else if(state == 7)
-    {
-      intakeOff = false;
-      spin_intake(7);
-    }
-    else if(((hueR < 230 && hueR > 200) || (hueL < 230 && hueL > 200)) && (proxR < 75 || proxL < 75) && alliance == 1 && intakeOff == false)
-    {
-      spin_intake(2);
-    }
-    //Alliance 2 = Blue, Colorsort red OUT
-    else if(((hueR < 50 && hueR > 300) || (hueL < 50 && hueL > 300)) && (proxR < 75 || proxL < 75) && alliance == 2 && intakeOff == false)
-    {
-      spin_intake(2);
-    }
-    else if(intakeOff = false)
-    {
-      spin_intake(8);
-    }
-    pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
+    spin_intake(3);
   }
+  else if(globController == 4)
+  {
+    spin_intake(4);
+  }
+  else if(globController == 6)
+  {
+    spin_intake(6);
+  }
+  else if(globController == 5)
+  {
+    spin_intake(5);
+  }
+  else if(globController == 7)
+  {
+    spin_intake(7);
+  }
+  else if(((hueR < 230 && hueR > 200) || (hueL < 230 && hueL > 200)) && (proxR < 75 || proxL < 75) && alliance == 1)
+  {
+    spin_intake(1);
+  }
+  //Alliance 2 = Blue, Colorsort red OUT
+  else if(((hueR < 50 && hueR > 300) || (hueL < 50 && hueL > 300)) && (proxR < 75 || proxL < 75) && alliance == 2)
+  {
+    spin_intake(1);
+  }
+  else
+  {
+    spin_intake(8);
+  }
+  pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
+
+  
 }
+
 int BlockCount = 0; // Counts the number of blocks in the robot
 /*
 void count() 
@@ -257,8 +248,13 @@ void initialize()
 {
   optical_sensorL.set_led_pwm(100);
   optical_sensorR.set_led_pwm(100);
-  optical_sensorL.set_integration_time(5);
-  optical_sensorR.set_integration_time(5);
+  optical_sensorL.set_integration_time(10);
+  optical_sensorR.set_integration_time(10);
+
+  chassis.drive_brake_set(MOTOR_BRAKE_COAST);
+  intake.set_brake_mode(MOTOR_BRAKE_COAST);
+  hood.set_brake_mode(MOTOR_BRAKE_COAST);
+  hopper.set_brake_mode(MOTOR_BRAKE_HOLD);
 
   // Print our branding over your terminal :D
   ez::ez_template_print();
@@ -281,8 +277,39 @@ void initialize()
 
   // Set the drive to your own constants from autons.cpp!
   default_constants();
+  
 
- 
+  pros::Task autonControlTask([]
+  {
+    while(true)
+    {
+      if(autonOn == true)
+      {
+        autonControll();
+      }   
+  
+      pros::delay(ez::util::DELAY_TIME);   
+
+    }
+    
+  });
+
+  pros::Task driverControlTask([]
+  {
+    while(true)
+    {
+      if(autonOn == false)
+      {
+        buttonControlDriver();
+
+      }
+         
+      pros::delay(ez::util::DELAY_TIME);   
+
+    }
+    
+  });
+  
 
   // These are already defaulted to these buttons, but you can change the left/right curve buttons here!
   // chassis.opcontrol_curve_buttons_left_set(pros::E_CONTROLLER_DIGITAL_LEFT, pros::E_CONTROLLER_DIGITAL_RIGHT);  // If using tank, only the left side is used.
@@ -291,9 +318,9 @@ void initialize()
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add(
     {
-      {"Drive\n\nDrive forward and come back", drive_example},
-      {"Turn\n\nTurn 3 times.", turn_example},
-      {"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
+      {"Drive\n\nDrive forward and come back", skills},
+      {"Turn\n\nTurn 3 times.", elimsRBRight},
+      {"Drive and Turn\n\nDrive forward, turn, come back", elimsRBLeft},
       {"Drive and Turn\n\nSlow down during drive", wait_until_change_speed},
       {"Swing Turn\n\nSwing in an 'S' curve", swing_example},
       {"Motion Chaining\n\nDrive forward, turn, and come back, but blend everything together :D", motion_chaining},
@@ -311,6 +338,8 @@ void initialize()
   chassis.initialize();
   ez::as::initialize();
   master.rumble(chassis.drive_imu_calibrated() ? "." : "---");
+
+
 
 }
 
@@ -353,12 +382,13 @@ void competition_initialize()
  */
 void autonomous() 
 {
+  autonOn = true;
+  odomPull.set(false);
   chassis.pid_targets_reset();                // Resets PID targets to 0
   chassis.drive_imu_reset();                  // Reset gyro position to 0
   chassis.drive_sensor_reset();               // Reset drive sensors to 0
   chassis.odom_xyt_set(0_in, 0_in, 0_deg);    // Set the current position, you can start at a specific position with this
   chassis.drive_brake_set(MOTOR_BRAKE_HOLD);  // Set motors to hold.  This helps autonomous consistency
-  
 
   /*
   Odometry and Pure Pursuit are not magic
@@ -373,12 +403,10 @@ void autonomous()
   to be consistent
   */
   
-  pros::Task autonControlTask([]
-  {
-    autonControll(globController);
-  }
-  );
   ez::as::auton_selector.selected_auton_call();  // Calls selected auton from autonomous selector-
+  autonOn = false;
+
+
 }
 
 /**
@@ -426,7 +454,8 @@ void ez_screen_task()
     }
 
     // Remove all blank pages when connected to a comp switch
-    else {
+    else 
+    {
       if (ez::as::page_blank_amount() > 0)
         ez::as::page_blank_remove_all();
     }
@@ -496,9 +525,7 @@ void opcontrol()
 {
   
   // This is preference to what you like to drive on
-  chassis.drive_brake_set(MOTOR_BRAKE_COAST);
-
-  pros::Task driverTask(buttonControlDriver);
+  odomPull.set(true);
 
 
 
@@ -511,7 +538,7 @@ void opcontrol()
 
     chassis.opcontrol_tank(); 
 
-    odomPull.set_value(false);
+    
      // Tank control
     // chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
     // chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
@@ -520,8 +547,8 @@ void opcontrol()
 
     // . . .
     matchLoads1.set(master.get_digital(DIGITAL_L1));
+    trapDoor.set(master.get_digital(DIGITAL_L2));
 
-    
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }

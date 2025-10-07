@@ -7,12 +7,9 @@ pros::Motor hood(15, pros::v5::MotorGears::green); // Motor is a normal blue mot
 pros::Motor hopper(14, pros::v5::MotorGears::green); // Motor is a normal green motor on port 10
 
 //Pneumatics
-pros::adi::Pneumatics matchLoads('A', true); // Starts clamp in the false (Down) position when the code starts in port A
 pros::adi::Pneumatics hoodP('B', false); // Starts tipper in the false (Down) position when the code starts in port A
-pros::adi::Pneumatics odomPull('C', true); // Starts clamp in the false (Down) position when the code starts in port A
 pros::adi::Pneumatics redirect('H', true);
 
-pros::adi::Pneumatics trapDoor('E', false);
 
 //Sensors
 
@@ -25,8 +22,8 @@ double hueL = optical_sensorL.get_hue();
 int proxL = optical_sensorL.get_proximity();
 int proxR = optical_sensorR.get_proximity();
 bool intakeOff = true;
-bool autonOn = true;
-int globController = 10;
+bool autonOn = false;
+int globController = 5;
 
 
 
