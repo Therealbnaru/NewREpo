@@ -25,8 +25,8 @@ ez::Drive chassis(
 //  - you should get positive values on the encoders going FORWARD and RIGHT
 // - `2.75` is the wheel diameter
 // - `4.0` is the distance from the center of the wheel to the center of the robot
-ez::tracking_wheel horiz_tracker(11, 2.75, .22);  // This tracking wheel is perpendicular to the drive wheels
-ez::tracking_wheel vert_tracker(-17, 2, .92);   // This tracking wheel is parallel to the drive wheels
+ez::tracking_wheel horiz_tracker(11, 2.75, .97);  // This tracking wheel is perpendicular to the drive wheels
+ez::tracking_wheel vert_tracker(-17, 2, .43);   // This tracking wheel is parallel to the drive wheels
 
 
 
@@ -63,17 +63,17 @@ void spin_intake(int x)
     else if(x==3)
     { 
       redirect.set_value(true);
-      intake.move(127);
-      hood.move(-127);
-      hopper.move(-127);
+      intake.move(115);
+      hood.move(-115);
+      hopper.move(-115);
 
     } 
     //R2 - Mid
     else if (x==4) 
     {
-      intake.move(127);
-      hood.move(127);
-      hopper.move(-127);
+      intake.move(115);
+      hood.move(115);
+      hopper.move(-115);
     }
     //B - Full Stop
     else if (x==5) 
@@ -87,22 +87,22 @@ void spin_intake(int x)
     else if(x==6)
     {
       hood.move(0);
-      hopper.move(-127);
-      intake.move(-127);
+      hopper.move(-115);
+      intake.move(-115);
     }
     //top basket
     else if(x==7)
     {
       redirect.set_value(false);
-      hood.move(-127);
-      intake.move(127);
-      hopper.move(-127);
+      hood.move(-115);
+      intake.move(115);
+      hopper.move(-115);
     }
     else if(x==8)
     {
-      hopper.move(127);
-      hood.move(-127);
-      intake.move(127);
+      hopper.move(115);
+      hood.move(-115);
+      intake.move(115);
     }
   
   
